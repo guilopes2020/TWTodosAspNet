@@ -35,6 +35,7 @@ public class TodoController : Controller
         if (! ModelState.IsValid)
         {
             ViewData["Title"] = "Nova Tarefa";
+
             return View("Form", todo);
         }
         
@@ -49,7 +50,12 @@ public class TodoController : Controller
     {
         var todo = _context.Todos.Find(id);
 
-        @ViewData["Title"] = "Nova Tarefa";
+        if (todo is null)
+        {
+            return NotFound();
+        }
+
+        @ViewData["Title"] = "Editar Tarefa";
 
         return View("Form", todo);
     }
@@ -57,6 +63,13 @@ public class TodoController : Controller
     [HttpPost]
     public IActionResult Edit(Todo todo)
     {
+        if (! ModelState.IsValid)
+        {
+            @ViewData["Title"] = "Editar Tarefa";
+
+            return View("Form", todo);
+        }
+
         _context.Todos.Update(todo);
         _context.SaveChanges();
 
@@ -66,7 +79,14 @@ public class TodoController : Controller
     public IActionResult Delete(int id)
     {
         var todo = _context.Todos.Find(id);
+
+        if (todo is null)
+        {
+            return NotFound();
+        }
+
         @ViewData["Title"] = "Excluir Tarefa";
+
         return View(todo);
     }
 
@@ -75,6 +95,22 @@ public class TodoController : Controller
     {
         _context.Todos.Remove(todo);
         _context.SaveChanges();
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    public IActionResult Finish(int id)
+    {
+        var todo = _context.Todos.Find(id);
+
+        if (todo is null)
+        {
+            return NotFound();
+        }
+
+        todo.Finish();
+        _context.SaveChanges();
+
         return RedirectToAction(nameof(Index));
     }
 }
