@@ -25,9 +25,9 @@
                         <td>@todo.Deadline</td>
                         <td>@(todo.FinishedAt.HasValue ? todo.FinishedAt : "-")</td>
                         <td>
-                            <a href="#" class="btn btn-success btn-sm">Concluir</a>
-                            <a href="#" class="btn btn-warning btn-sm">Editar</a>
-                            <a href="#" class="btn btn-danger btn-sm">Excluir</a>
+                            <a class="btn btn-success btn-sm">Concluir</a>
+                            <a asp-controller="Todo" asp-action="Edit" asp-route-id="@todo.Id" class="btn btn-warning btn-sm">Editar</a>
+                            <a asp-controller="Todo" asp-action="Delete" asp-route-id="@todo.Id" class="btn btn-danger btn-sm">Excluir</a>
                         </td>
                     </tr>
                 } 
@@ -38,4 +38,4 @@
         <p>Nenhuma tarefa cadastrada</p>
     }
 
-<a href="#" class="btn btn-primary">Nova Tarefa</a>
+<a asp-controller="Todo" asp-action="Create" class="btn btn-primary">Nova Tarefa</a>
