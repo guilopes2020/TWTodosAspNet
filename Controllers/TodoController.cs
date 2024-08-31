@@ -15,6 +15,7 @@ public class TodoController : Controller
 
     public IActionResult Index()
     {
+        @ViewData["Title"] = "Lista de Tarefas";
         var todos = _context.Todos.ToList();
 
         return View(todos);
